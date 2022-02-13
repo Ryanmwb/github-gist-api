@@ -2,9 +2,10 @@ import React, { useEffect } from "react";
 import { Button, Descriptions, Empty, List } from "antd";
 import { get } from "lodash";
 import { useNavigate, useParams } from "react-router-dom";
-import { HeartFilled, HeartOutlined } from "@ant-design/icons";
+// components
+import FavoriteButton from "../../components/favorite-button";
 // utils
-import { isFavoriteGist, toggleFavorite } from "../../utils";
+import { isFavoriteGist } from "../../utils";
 import { getGistsByUsername } from "../../github-api";
 // styles
 import "antd/dist/antd.min.css";
@@ -31,7 +32,7 @@ export default function Gists({
         }
     })();
     return () => setGists([]);
-  }, []);
+  }, [username]);
 
   return gists.length === 0 ? (
     <Empty description="No gists" />
@@ -47,22 +48,10 @@ export default function Gists({
             <Descriptions
               extra={
                 <div>
-                  <Button
-                    shape="circle"
-                    icon={
-                      isFavorite ? (
-                        <HeartFilled style={{ color: "red" }} />
-                      ) : (
-                        <HeartOutlined />
-                      )
-                    }
-                    onClick={() =>
-                      toggleFavorite({
-                        gist,
-                        favorites,
-                        setFavorites,
-                      })
-                    }
+                  <FavoriteButton
+                    gist={gist}
+                    isFavorite={isFavorite}
+                    setFavorites={setFavorites}
                   />
                   <Button
                     type="link"

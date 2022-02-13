@@ -29,7 +29,7 @@ export default function Navbar({ favorites, gists }) {
         onBack={() => navigate(-1)}
         extra={[
           <Button key="home" onClick={() => navigate("/")}>
-            Home
+            Search
           </Button>,
           <Button
             key="favorites"
@@ -46,12 +46,12 @@ export default function Navbar({ favorites, gists }) {
         onCancel={() => setIsFavoritesOpen(false)}
         onOk={() => setIsFavoritesOpen(false)}
       >
-        {Object.keys(favorites).length ? (
+        {favorites.length ? (
           <List>
-            {Object.keys(favorites).map((favoriteId) => {
-              const favorite = JSON.parse(favorites[favoriteId]);
+            {favorites.map((favoriteRow) => {
+              const favorite = JSON.parse(favoriteRow.gist_obj);
               return (
-                <List.Item key={favoriteId}>
+                <List.Item key={favoriteRow.gist_id}>
                   <div>
                     <div>owner: {get(favorite, "owner.login")}</div>
                     <div>description: {favorite.description}</div>

@@ -2,13 +2,14 @@ import React, { useEffect, useState } from "react";
 import { Button, Descriptions } from "antd";
 import { get } from "lodash";
 import { useParams } from "react-router-dom";
-import { HeartFilled, HeartOutlined } from "@ant-design/icons";
+// components
+import FavoriteButton from "../../components/favorite-button";
 // utils
-import { isFavoriteGist, toggleFavorite } from "../../utils";
+import { isFavoriteGist } from "../../utils";
 import { getGistById } from "../../github-api";
-
 // styles
 import "antd/dist/antd.min.css";
+
 export default function Gist({ favorites, setFavorites, setError }) {
   const { gistId } = useParams();
 
@@ -16,7 +17,7 @@ export default function Gist({ favorites, setFavorites, setError }) {
   const { comments, created_at, files, history, owner, updated_at, html_url } =
     gist;
 
-  isFavoriteGist(gistId, favorites);
+  const isFavorite = isFavoriteGist(gistId, favorites);
 
   useEffect(() => {
     (async function () {
@@ -33,23 +34,11 @@ export default function Gist({ favorites, setFavorites, setError }) {
     <Descriptions
       bordered
       extra={[
-        <Button
+        <FavoriteButton
           key="1"
-          shape="circle"
-          icon={
-            isFavoriteGist(gistId, favorites) ? (
-              <HeartFilled style={{ color: "red" }} />
-            ) : (
-              <HeartOutlined />
-            )
-          }
-          onClick={() =>
-            toggleFavorite({
-              gist,
-              favorites,
-              setFavorites,
-            })
-          }
+          isFavorite={isFavorite}
+          setFavorites={setFavorites}
+          gist={gist}
         />,
         <Button key="2" target="_blank" type="link" href={html_url}>
           Github Link
