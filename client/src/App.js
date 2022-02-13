@@ -18,8 +18,6 @@ const App = () => {
   const [gists, setGists] = useState([]);
   const [favorites, setFavorites] = useState([]);
 
-  console.log({ favorites });
-
   useEffect(() => {
     (async function () {
       const res = await axios.get("http://localhost:3010/favorite-gists");
